@@ -1,0 +1,44 @@
+@CHARSET "ISO-8859-1";
+
+.container {
+	margin-top: 20px;
+}
+
+form {
+	border-radius: 3px;
+	padding:10px;
+	margin-top: 10px;
+	background-color: #eee;
+}
+
+form#conversationsList {
+	background-color: transparent;
+}
+
+form#conversationsList a{
+	display: block;
+}
+
+form .error{
+	display: block;
+	color:red;
+}
+
+#avatar:before{
+    content:'';
+    padding:50% 0; /* vertical value as  100% equals width */
+    display:inline-block;
+}
+
+#avatar {
+    width: 90%px;
+    background: #eee;
+    border-radius: 50%;
+}
+
+#chatText {
+	height: 70vh;
+    background: #eee;
+    border-radius: 4px;
+    padding: 10px;
+}

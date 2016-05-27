@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+>
+<h:head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title></title>
+<script src="https://code.jquery.com/jquery-2.2.3.min.js" type="text/javascript"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" type="text/javascript"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" type="text/css"/>
+<h:outputStylesheet library="css" name="styles.css"/> 
+</h:head>
+<h:body>
+	<div class="container">
+		<h:form id="loginForm" prependId="false" styleClass="col-md-offset-4 col-md-4">
+			<h2>Operator login</h2>
+			
+			<h:panelGroup layout="block" styleClass="form-group">
+				<h:outputLabel for="login" value="login:" styleClass="control-label"/>
+				<h:inputText id="login" label="Login" value="#{operator.login}" required="true" styleClass="form-control"/>
+			</h:panelGroup>
+		
+			<h:panelGroup layout="block" styleClass="form-group">
+				<h:outputLabel for="password" value="password:" styleClass="control-label"/>
+				<h:inputText id="password" label="Password" value="#{operator.passwd}" required="true" styleClass="form-control"/>
+			</h:panelGroup>
+			
+			<h:panelGroup layout="block" id="error-msg" styleClass="text-danger">
+				<h:outputText rendered="#{operator.checked and !operator.logged}" value="La combinación usuario/contraseña no es correcta"></h:outputText>
+			</h:panelGroup>
+			
+			<div class="form-group">
+				<h:commandButton actionListener="#{operatorLoginController.validateOperator}" value="Login" render="error-msg" styleClass="btn btn-default"/>
+			</div>
+		</h:form>
+	</div>	
+</h:body>
+</html>

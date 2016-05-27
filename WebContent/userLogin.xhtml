@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+>
+<h:head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title></title>
+<script src="https://code.jquery.com/jquery-2.2.3.min.js" type="text/javascript"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" type="text/javascript"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" type="text/css"/>
+<h:outputStylesheet library="css" name="styles.css"/> 
+</h:head>
+<h:body>
+	<div class="container">
+		<h:form id="loginForm" prependId="false" styleClass="col-md-offset-4 col-md-4">
+		
+			<h2>User login</h2>
+			<h:panelGroup layout="block" styleClass="form-group #{not name.valid?'has-error':''}">
+				<h:outputLabel for="name" value="Name:" styleClass="control-label"/>
+				<h:inputText id="name" binding="#{name}" label="Name" value="#{userLoginBean.name}" required="true" styleClass="form-control"/>
+				<h:message for="name" styleClass="help-block"></h:message>
+			</h:panelGroup>
+			
+ 			<h:panelGroup layout="block" styleClass="form-group #{not cat.valid?'has-error':''}">
+				<h:outputLabel for="selectedCategory" value="Category:" styleClass="control-label"/>
+				<h:selectOneMenu id="selectedCategory" binding="#{cat}" label="Category" value="#{empty userLoginBean.selectedCategory ? userLoginController.defaultCategory : userLoginBean.selectedCategory}" required="true" styleClass="form-control">
+					<f:ajax render="selectedProduct" />
+					<f:selectItems value="#{userLoginController.categories}" var="category" itemLabel="#{category}" itemValue="#{category}" />
+		        </h:selectOneMenu>
+				<h:message for="selectedCategory" styleClass="help-block"></h:message>
+			</h:panelGroup>
+			
+			<h:panelGroup layout="block" styleClass="form-group #{not prod.valid?'has-error':''}">
+				<h:outputLabel for="selectedProduct" value="Product:" styleClass="control-label"/>
+				<h:selectOneMenu id="selectedProduct" binding="#{prod}" label="Product" value="#{userLoginBean.selectedProduct}" required="true" styleClass="form-control">
+					<f:selectItems value="#{userLoginController.categoryChanged()}" var="product" itemLabel="#{product}" itemValue="#{product}" />
+		        </h:selectOneMenu>
+				<h:message for="selectedProduct" styleClass="help-block"></h:message>
+			</h:panelGroup>
+			
+			<h:panelGroup layout="block" styleClass="form-group #{not subject.valid?'has-error':''}">
+				<h:outputLabel for="subject" value="Subject:" styleClass="control-label"/>
+				<h:inputTextarea id="subject" binding="#{subject}" label="Subject" value="#{userLoginBean.subject}" required="true" styleClass="form-control">
+				</h:inputTextarea>
+				<h:message for="subject" styleClass="help-block"></h:message>
+			</h:panelGroup>
+			
+			<div class="form-group">
+				<h:commandButton action="#{userLoginController.createConversation()}" value="Login" styleClass="btn btn-default"/>
+			</div>
+		</h:form>
+	</div>	
+</h:body>
+</html>

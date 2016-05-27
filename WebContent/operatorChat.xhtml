@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+>
+<h:head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title></title>
+<script src="https://code.jquery.com/jquery-2.2.3.min.js" type="text/javascript"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" type="text/javascript"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" type="text/css"/>
+<h:outputStylesheet library="css" name="styles.css"/> 
+<h:outputScript library="js" name="websocket.js" />
+</h:head>
+<h:body>
+	<h:panelGroup layout="block" styleClass="container">
+		<h:panelGroup layout="block" styleClass="row">
+			<!--  left column -->
+			<h:panelGroup layout="block" id="operator" styleClass="col-md-3">
+				<h:panelGroup layout="block" id="avatar"></h:panelGroup>
+				<h:panelGroup layout="block" id="operatorDetails">
+					<h3>Operator</h3>
+					<h:outputText id="operatorId" value="#{operator.operatorId}"></h:outputText>
+					 
+						<!-- conversations list form -->
+						
+						<h:form id="conversationsList" prependId="false">
+							<ui:repeat value="#{operatorChatBean.conversations}" var="convD">
+								<h:commandLink value="#{convD.userName}" styleClass="#{convD.conversationLinkStyle}">
+									
+								</h:commandLink>
+							</ui:repeat>
+							<h:commandButton id="refresh" style="display:none">
+									<f:ajax render="conversationsList" listener="#{operatorChat.refreshConversations()}"/>
+							</h:commandButton>
+						</h:form>
+				</h:panelGroup>
+			</h:panelGroup>
+			
+			<!-- main column -->
+			<h:panelGroup layout="block" id="chat" styleClass="col-md-9">
+				<h:panelGroup layout="block" id="chatText">
+				
+				</h:panelGroup>
+				
+				<!-- chat form -->
+				
+				<h:form id="chatForm" prependId="false">
+					<h:inputHidden id="personId" value="#{operator.operatorId}"/>
+					<h:panelGroup layout="block" styleClass="form-group">
+						<h:outputLabel for="message" value="Message:" styleClass="control-label"/>
+						<h:inputTextarea id="message" label="Message" required="true" styleClass="form-control"></h:inputTextarea>
+						<h:message for="name" styleClass="help-block"></h:message>
+					</h:panelGroup>
+					<h:panelGroup layout="block" styleClass="form-group">
+					<h:commandButton value="send" styleClass="btn btn-default"></h:commandButton>
+					</h:panelGroup>
+				</h:form>
+			</h:panelGroup>
+		</h:panelGroup>
+	</h:panelGroup>
+	
+</h:body>
+</html>
