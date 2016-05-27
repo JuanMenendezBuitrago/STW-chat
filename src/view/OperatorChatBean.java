@@ -40,8 +40,8 @@ public class OperatorChatBean {
 	public List<ConversationDetails> getConversations() {
 		if(conversations != null) {
 			for(ConversationDetails details: conversations) {
-				System.out.println("name: " + details.getUserName());
-				System.out.println("style: " + details.getConversationLinkStyle());
+				System.out.println("name: " + details.getUserName());//TODO:delete
+				System.out.println("style: " + details.getConversationLinkStyle());//TODO:delete
 			}
 		}
 		return conversations;
