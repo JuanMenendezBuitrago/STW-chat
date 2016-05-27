@@ -29,7 +29,7 @@ xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 				<h:inputText id="password" label="Password" value="#{operator.passwd}" required="true" styleClass="form-control"/>
 			</h:panelGroup>
 			
-			<h:panelGroup layout="block" id="error-msg" styleClass="text-danger">
+			<h:panelGroup layout="block" id="error-msg" styleClass="text-danger bg-danger">
 				<h:outputText rendered="#{operator.checked and !operator.logged}" value="La combinación usuario/contraseña no es correcta"></h:outputText>
 			</h:panelGroup>
 			
