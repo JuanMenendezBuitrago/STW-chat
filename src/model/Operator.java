@@ -46,12 +46,23 @@ public class Operator {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public Operator(UUID id, String login, String password, String name, String department, String pictureSrc) {
+	public Operator(UUID id, String login, String password, String name, String department, String welcomeMsg) {
 		this.id = id;
 		this.login = login;
 		this.password = password;
 		this.name = name;
 		this.department = department;
+		this.welcomeMsg = welcomeMsg;
+		// TODO Auto-generated constructor stub
+	}
+	
+	public Operator(UUID id, String login, String password, String name, String department, String welcomeMsg, String pictureSrc) {
+		this.id = id;
+		this.login = login;
+		this.password = password;
+		this.name = name;
+		this.department = department;
+		this.welcomeMsg = welcomeMsg;
 		this.pictureSrc = pictureSrc;
 		// TODO Auto-generated constructor stub
 	}
@@ -66,6 +77,14 @@ public class Operator {
 	}
 
 
+	public String getWelcomeMsg() {
+		return welcomeMsg;
+	}
+
+	public void setWelcomeMsg(String msg) {
+		welcomeMsg = msg;
+	}
+	
 	public String getName() {
 		return name;
 	}
@@ -108,7 +127,7 @@ public class Operator {
 		return activeChats;
 	}
 	
-	public Conversation getCurrentconversation() {
+	public Conversation getCurrentConversation() {
 		return currentConversation;
 	}
 	

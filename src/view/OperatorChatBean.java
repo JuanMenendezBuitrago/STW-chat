@@ -1,6 +1,7 @@
 package view;
 
 import java.util.List;
+import java.util.UUID;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -9,11 +10,10 @@ import javax.faces.bean.SessionScoped;
 @SessionScoped
 public class OperatorChatBean {
 
-	private int selectedConversationId;
 	
-	private String history;
+	private String history="what??";
 	
-	private String message;
+	private String message="";
 	
 	private List<ConversationDetails> conversations;
 	
@@ -22,10 +22,12 @@ public class OperatorChatBean {
 	}
 
 	public String getHistory() {
+		System.out.println("getting history:\n" + history);// TODO: delete
 		return history;
 	}
 
 	public void setHistory(String history) {
+		System.out.println("Setting history:\n" + history); // TODO: delete
 		this.history = history;
 	}
 
@@ -38,12 +40,6 @@ public class OperatorChatBean {
 	}
 
 	public List<ConversationDetails> getConversations() {
-		if(conversations != null) {
-			for(ConversationDetails details: conversations) {
-				System.out.println("name: " + details.getUserName());//TODO:delete
-				System.out.println("style: " + details.getConversationLinkStyle());//TODO:delete
-			}
-		}
 		return conversations;
 	}
 

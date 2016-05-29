@@ -19,27 +19,35 @@ xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	<h:panelGroup layout="block" styleClass="container">
 		<h:panelGroup layout="block" styleClass="row">
 			<!--  left column -->
-			<h:panelGroup layout="block" id="operator" styleClass="col-md-3">
-				<h:panelGroup layout="block" id="avatar"></h:panelGroup>
-				<h:panelGroup layout="block" id="operatorDetails"></h:panelGroup>
+			<h:panelGroup layout="block" id="operator" styleClass="col-xs-3">
+				<h:graphicImage library="img" name="#{userLoginController.operator.pictureSrc}" id="avatar"></h:graphicImage>
+				<h:panelGroup layout="block" id="operatorDetails">
+					<h3>Operator name: <h:outputText value="#{userLoginController.operator.name}"></h:outputText></h3>
+				</h:panelGroup>
 			</h:panelGroup>
 			
 			<!-- main column -->
-			<h:panelGroup layout="block" id="chat" styleClass="col-md-9">
-				<h:panelGroup layout="block" id="chatText">
-				lipsum
+			<h:panelGroup layout="block" id="chat" styleClass="col-xs-9">
+				
+				<h:panelGroup layout="block" id="chatIntro">
+				Hola <h:outputText value="#{userLoginBean.name}"/>:<h:outputText value="#{userLoginController.operator.welcomeMsg}"/>
 				</h:panelGroup>
+				<h:panelGroup layout="block" id="chatText"/>
 				
 				
 				<h:form id="chatForm" prependId="false">
+					<h:inputHidden id="operatorId" value="#{userLoginController.operator.id}"/>
 					<h:inputHidden id="personId" value="#{userLoginBean.userId}"/>
+					<h:inputHidden id="name" value="#{userLoginBean.name}"/>
 					<h:panelGroup layout="block" styleClass="form-group">
 						<h:outputLabel for="message" value="Message:" styleClass="control-label"/>
 						<h:inputTextarea id="message" label="Message" required="true" styleClass="form-control"></h:inputTextarea>
 						<h:message for="name" styleClass="help-block"></h:message>
 					</h:panelGroup>
 					<h:panelGroup layout="block" styleClass="form-group">
-					<h:commandButton value="send" styleClass="btn btn-default"></h:commandButton>
+					<h:commandButton value="send" onclick="sendChatMessage();" styleClass="btn btn-default" >
+						<f:ajax/>
+					</h:commandButton>
 					</h:panelGroup>
 				</h:form>
 			</h:panelGroup>

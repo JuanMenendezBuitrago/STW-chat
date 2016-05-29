@@ -21,6 +21,7 @@ public class MessageEncoder implements Encoder.Text<Message> {
 		String result = Json.createObjectBuilder()
 				.add("message", chatMessage.getMessage())
 				.add("from", chatMessage.getFrom())
+				.add("name", chatMessage.getName())
 				.add("timestamp", chatMessage.getTimeStamp())
 				.add("code", chatMessage.getCode().intValue())
 				.build().toString();

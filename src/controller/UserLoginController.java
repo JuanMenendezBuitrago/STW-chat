@@ -14,6 +14,7 @@ import javax.faces.bean.SessionScoped;
 import model.CatalogBean;
 import model.Conversation;
 import model.ConversationsManager;
+import model.Operator;
 import model.Product;
 import view.UserLoginBean;
 
@@ -34,6 +35,8 @@ public class UserLoginController {
 	
 	private Set<String> categories;	
 
+	private Conversation conversation;
+	
 	public UserLoginController() {	
 	}
 	
@@ -65,8 +68,6 @@ public class UserLoginController {
 	
 	public String createConversation() {
 		
-		System.out.println("UserLoginController::createConversation()"); //TODO:delete
-		
 		UUID userId = UserLoginController.generateUserId();
 		userLoginBean.setUserId(userId);
 		
@@ -76,15 +77,16 @@ public class UserLoginController {
 		String userName = userLoginBean.getName();
 		
 		try{
-			Conversation conversation = conversationsManager.createConversation(userId, category, product, subject, userName);
-			System.out.println(conversation);//TODO:delete
-
-			System.out.println("-----"); //TODO:delete
+			conversation = conversationsManager.createConversation(userId, category, product, subject, userName);
 			return "userChat";
 		}
 		catch (Exception e){
 			return "noOperatorFound";
 		}
+	}
+	
+	public Operator getOperator() {
+		return conversation.getOperator();
 	}
 	
 	private static UUID generateUserId() {

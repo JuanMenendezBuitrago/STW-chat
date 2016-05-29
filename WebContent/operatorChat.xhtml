@@ -5,6 +5,7 @@ xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
 >
 <h:head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -19,8 +20,7 @@ xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	<h:panelGroup layout="block" styleClass="container">
 		<h:panelGroup layout="block" styleClass="row">
 			<!--  left column -->
-			<h:panelGroup layout="block" id="operator" styleClass="col-md-3">
-				<h:panelGroup layout="block" id="avatar"></h:panelGroup>
+			<h:panelGroup layout="block" id="operator" styleClass="col-xs-3">
 				<h:panelGroup layout="block" id="operatorDetails">
 					<h3>Operator</h3>
 					<h:outputText id="operatorId" value="#{operator.operatorId}"></h:outputText>
@@ -29,8 +29,8 @@ xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 						
 						<h:form id="conversationsList" prependId="false">
 							<ui:repeat value="#{operatorChatBean.conversations}" var="convD">
-								<h:commandLink value="#{convD.userName}" styleClass="#{convD.conversationLinkStyle}">
-									
+								<h:commandLink a:data-id="#{convD.conversationId}" value="#{convD.userName}" styleClass="#{convD.conversationLinkStyle} #{convD.pending? 'pending':''}">
+									<f:ajax render="chat conversationsList" listener="#{operatorChat.changeToConversation(convD.conversationId)}"></f:ajax>
 								</h:commandLink>
 							</ui:repeat>
 							<h:commandButton id="refresh" style="display:none">
@@ -41,22 +41,24 @@ xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 			</h:panelGroup>
 			
 			<!-- main column -->
-			<h:panelGroup layout="block" id="chat" styleClass="col-md-9">
-				<h:panelGroup layout="block" id="chatText">
-				
-				</h:panelGroup>
+			<h:panelGroup layout="block" id="chat" styleClass="col-xs-9">
+				<h:panelGroup layout="block" id="chatText"><h:outputText escape="false" value="#{operatorChatBean.history}"/></h:panelGroup>
 				
 				<!-- chat form -->
 				
 				<h:form id="chatForm" prependId="false">
 					<h:inputHidden id="personId" value="#{operator.operatorId}"/>
+					<h:inputHidden id="name" value="#{operatorChat.operator.name}"/>
+					<h:inputHidden id="conversationId" value="#{operatorChat.currentConversationId}"/>
 					<h:panelGroup layout="block" styleClass="form-group">
 						<h:outputLabel for="message" value="Message:" styleClass="control-label"/>
 						<h:inputTextarea id="message" label="Message" required="true" styleClass="form-control"></h:inputTextarea>
 						<h:message for="name" styleClass="help-block"></h:message>
 					</h:panelGroup>
 					<h:panelGroup layout="block" styleClass="form-group">
-					<h:commandButton value="send" styleClass="btn btn-default"></h:commandButton>
+					<h:commandButton value="send" onclick="sendChatMessage();" styleClass="btn btn-default" >
+						<f:ajax/>
+					</h:commandButton>
 					</h:panelGroup>
 				</h:form>
 			</h:panelGroup>

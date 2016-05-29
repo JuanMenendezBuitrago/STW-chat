@@ -10,21 +10,24 @@ public class Message {
 	
 	private String from;
 	
+	private String name;
+	
 	private String timeStamp;
 	
 	private MessageCode code;
 	
-	public Message(String from, String message){
-		this(MessageCode.MESSAGE, from, message);
+	public Message(String from, String name, String message){
+		this(MessageCode.MESSAGE, from, name, message);
 	}
 
-	public Message(int code, String from, String message){
-		this(new MessageCode(code), from, message);
+	public Message(int code, String from, String name, String message){
+		this(new MessageCode(code), from, name, message);
 	}
 	
-	public Message(MessageCode code, String from, String message){
+	public Message(MessageCode code, String from, String name, String message){
 		this.code = code;
 		this.from = from;
+		this.name = name;
 		this.message = message;
 		this.timeStamp = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss").format(new Date());
 	}
@@ -35,6 +38,10 @@ public class Message {
 	
 	public String getFrom() {
 		return from;
+	}
+	
+	public String getName() {
+		return name;
 	}
 	
 	public String getTimeStamp() {

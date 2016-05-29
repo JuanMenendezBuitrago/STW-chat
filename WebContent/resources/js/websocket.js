@@ -6,7 +6,6 @@ var chatEndpoint = "ws://localhost:8080/chat/chat";
 var ws;
 var previous;
 var $beginChat;
-var $form;
 var $endChat;
 var $message;
 var $opening;
@@ -16,12 +15,6 @@ var id = "";
 
 
 $(function(){
-	$opening = $("#opening");
-	$output = $("#output");
-	$closing = $("#closing");
-	$message = $("#message");
-	$form = $("form");	
-	
 	initiateChatSession();
 })
 
@@ -37,7 +30,6 @@ function initiateChatSession() {
 	console.log("Intiating chat session.");	
 
 	if ("WebSocket" in window) {
-		
 		ws = new WebSocket(chatEndpoint + "/" + $("#personId").val());
 		ws.onopen = onOpen;
 		ws.onclose = onClose;
@@ -46,21 +38,32 @@ function initiateChatSession() {
 		// The browser doesn't support WebSocket
 		alert("WebSocket NOT supported!");
 	}
-
 }
 
 function closeChatSession(event) {
+	
 	console.log("In closeChatSession");
+	
 	ws.close();
 }
+
+/**
+ * This function is called on a connection error.
+ * @param evt the event that contains the error.
+ */
+function onError(evt){
+	connection.close();
+}
+
 /**
  * This function is called when the connection to the serverEndPoint is 
  * stablished.
  * @param evt the event that contains the connection data.
  */ 
 function onOpen(evt){
-	// send a message to everyone
+	
 	console.log("on open");
+	
 }
 
 /**
@@ -68,7 +71,9 @@ function onOpen(evt){
  * @param evt the event that contains the disconnection data.
  */
 function onClose(evt){	
+	
 	console.log("on close");
+	
 }
 
 /**
@@ -80,36 +85,42 @@ function onMessage(evt){
 	if (received_msg.code == 1) {
 		console.log("refreshing");
 		$("#refresh").click();
+		return;
 	}
-	 
-	var msg_line = "[" + received_msg.timestamp + "] " + received_msg.from + " > " + received_msg.message; 
-	msg_line = $('<div class="line">').append(msg_line);
-	$output.append(msg_line);
-
+	
+	if(received_msg.from == $("#conversationId").val() || received_msg.from == $("#operatorId").val()) {
+		appendMessage(received_msg.message, received_msg.name, "outside");
+	}else{
+		$("#conversationsList a").filter(function(){
+			return received_msg.from == $(this).data("id");
+		}).addClass("pending");
+	}
 }
 
-/**
- * This function is called on a connection error.
- * @param evt the event that contains the error.
- */
-function onError(evt){
-	connection.close();
-}
 
-function sendChatMessage(msg) {
+function sendChatMessage() {
 	console.log("In sendChatMessage");
 
-	var user = $("#username").val();
-	var message = typeof(msg)=="undefined" ? $messageBox.val():msg;
-	var timestamp = '';
-	var chatobj = '{"from" : "' + user + '", "message" : "' + message + '", "timestamp" : "' + timestamp + '"}';
+	var message = $("#message").val();
+	var name = $("#name").val();
+	if(message != "") {
+		var chatobj = {"code": 0, "from": $("#personId").val() , "name": name, "message" : message};
+		var chatstr = JSON.stringify(chatobj);
 		
-	if (ws == null) {
-		alert('problem with WebSocket, ' + 'please initiate session again');
-	} else {
-		ws.send(chatobj);
-		$("#message").val('').focus();
+		if (ws == null) {
+			alert('problem with WebSocket, please initiate session again');
+		} else {
+			ws.send(chatstr);
+			appendMessage(message, name, "local");
+			$("#message").val('').focus();
+		}	
 	}
+}
+
+function appendMessage(msg, name, author) {
+	msg = msg.replace(/(?:\r\n|\r|\n)/g, '<br />');
+	var msg_line = $('<div class="line ' + author + '">').append(name + ":" + msg);
+	$("#chatText").append(msg_line);
 }
 
 

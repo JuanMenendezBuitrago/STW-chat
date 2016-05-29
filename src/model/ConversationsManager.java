@@ -1,7 +1,6 @@
 package model;
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -30,20 +29,16 @@ public class ConversationsManager {
 
 	public Conversation createConversation(UUID userId, String category, String product, String subject, String userName) throws OperatorsNotAvailableException {
 		
-		System.out.println("ConversationsManager::createConversation()"); //TODO:delete
-		
 		Conversation conversation = new Conversation(userId, category, product, subject, userName);
 
 		Operator operator = getAvailableOperator();
 		
-		System.out.println("Operator assigned: " + operator.getLogin()); //TODO:delete
 		
 		conversation.setOperator(operator);
 		operator.addConversation(conversation);
-		
-		conversationTuplesById.put(userId, new UserIdOperatorIdConversationTuple(userId, operator.getId(), conversation));
-
-		System.out.println("-----"); //TODO:delete
+		UUID operatorId = operator.getId();
+		conversationTuplesById.put(userId, new UserIdOperatorIdConversationTuple(userId, operatorId, conversation));
+		System.out.println("Conversation created between " + userId + "and " + operatorId); //TODO:delete
 		
 		return conversation;
 	}
@@ -77,6 +72,10 @@ public class ConversationsManager {
 	}
 	
 	public Conversation getConversationByid(UUID conversationId) {
-		return conversationTuplesById.get(conversationId).getConversation();
+		try{
+			return conversationTuplesById.get(conversationId).getConversation();
+		}catch(NullPointerException e){
+			return null;
+		}
 	}
 }

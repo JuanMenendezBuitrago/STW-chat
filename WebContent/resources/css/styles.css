@@ -19,6 +19,20 @@ form#conversationsList a{
 	display: block;
 }
 
+
+form#conversationsList .selected{
+	font-weight: bold;
+}
+
+
+form#conversationsList .not-selected{
+	font-weight: normal;
+}
+
+form#conversationsList .not-selected.pending{
+	text-decoration: underline;
+}
+
 form .error{
 	display: block;
 	color:red;
@@ -31,7 +45,7 @@ form .error{
 }
 
 #avatar {
-    width: 90%px;
+    width: 90%;
     background: #eee;
     border-radius: 50%;
 }

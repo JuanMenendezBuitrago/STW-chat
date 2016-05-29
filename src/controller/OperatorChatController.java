@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
@@ -36,23 +37,58 @@ public class OperatorChatController {
 		this.operator = operator;
 	}
 
+	public Operator getOperator() {
+		return operator;
+	}
+
 	public void setOperatorChatBean(OperatorChatBean operatorChatBean) {
 		this.operatorChatBean = operatorChatBean;
 	}
 
+	public UUID getCurrentConversationId() {
+		return currentConversationId;
+	}
+
 	private void refreshConversationArea(Conversation conversation) {
-		
+		operatorChatBean.setHistory(conversation.toString());
 	}
 	
-	public void changeToConversation(ConversationDetails conversationDetails) {
+	private void changeToConversation(ConversationDetails newConversationDetails) {
+		if(currentConversationId != null) {
+			ConversationDetails oldConversationDetails = getConversationDetailsById(currentConversationId);
+			oldConversationDetails.setConversationLinkStyleToUnelectedChat();
+		}
 		
+		currentConversationId = newConversationDetails.getConversationId();
+		newConversationDetails.setPending(false);
+		Conversation conversation = operator.getConversationById(currentConversationId);
+		operator.setCurrentConversation(conversation);
+		newConversationDetails.setConversationLinkStyleToSelectedChat();
+		
+		refreshConversationArea(conversation);
+		refreshConversations();
 	}
 	
-	private void changeToConversation(long conversationId) {
-		
+	
+	public void changeToConversation(String conversationId) {
+		UUID newConversationId = UUID.fromString(conversationId);
+		ConversationDetails newCoversationDetails = getConversationDetailsById(newConversationId); 
+		changeToConversation(newCoversationDetails);
 	}
 	
-	public ConversationDetails getConversationDetailsById(long conversationId) {
+	public ConversationDetails getConversationDetailsById(UUID conversationId) {
+
+		System.out.println("getting onversation details by id " + conversationId); // TODO: delete
+		List<ConversationDetails>  conversationsDetails = operatorChatBean.getConversations();
+		
+		for(ConversationDetails conversationDetails : conversationsDetails) {
+			System.out.println("comparing with conversation id " + conversationDetails.getConversationId()); // TODO: delete
+			if(conversationDetails.getConversationId().equals(conversationId)) {
+				System.out.println("returning " + conversationDetails); // TODO: delete
+				return conversationDetails;
+			}
+		}
+		System.out.println("returning null??"); // TODO: delete
 		return null;
 	}
 	
@@ -63,15 +99,12 @@ public class OperatorChatController {
 		// get active chats for this operator
 		this.conversations = (ArrayList<Conversation>) this.operator.getActiveChats();
 		
-		System.out.println("Operators list:"); //TODO:delete
-		System.out.println(this.conversations); //TODO:delete
-		
 		// compose list of conversations details
 		ArrayList<ConversationDetails> conversationsDetails = new ArrayList<ConversationDetails>();
 		for(Conversation conversation : this.conversations) {
 			// instantiate ConversationDetails object 
-			ConversationDetails conversationDetails = new ConversationDetails(conversation.getUserName(), conversation.getProduct(), conversation.getConversationId());
-			
+			ConversationDetails conversationDetails = new ConversationDetails(conversation.getUserName(), conversation.getProduct(), conversation.getConversationId(), conversation.isPending());
+		
 			// test equality of UUIDs 
 			if(conversation.getConversationId().equals(this.currentConversationId)) {
 				conversationDetails.setConversationLinkStyleToSelectedChat();
@@ -84,23 +117,14 @@ public class OperatorChatController {
 	
 	private void setupCurrentConversationId() {
 		
-		System.out.println("OperatorChatController::setupCurrentConversationId()");//TODO:delete
-		
 		if( this.currentConversationId == null) {
 		
-			System.out.println("currentConversationId is null"); //TODO:delete
 			
-			Conversation currentConversation = this.operator.getCurrentconversation();
-			if(currentConversation != null) {
-			
-				System.out.println("currentConversationId is not null"); //TODO:delete
-				
+			Conversation currentConversation = this.operator.getCurrentConversation();
+			if(currentConversation != null) {				
 				this.currentConversationId = currentConversation.getConversationId();
 			}
 		}
-		System.out.println("currentConversationId is " + this.currentConversationId); //TODO:delete
-		System.out.println("--------------"); //TODO:delete
-		
 	}
 	
 	public void removeConversation(ConversationDetails conversationdetails) {

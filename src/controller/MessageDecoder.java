@@ -26,7 +26,8 @@ public class MessageDecoder implements Decoder.Text<Message> {
 		JsonObject obj = reader.readObject();
 		
 		try{
-			return new Message(obj.getInt("code"), obj.getString("from"), obj.getString("message"));
+			System.out.println("Decoding message: " + textMessage);//TODO:delete
+			return new Message(obj.getInt("code"), obj.getString("from"), obj.getString("name"), obj.getString("message"));
 		}
 		catch(Exception e){
 			return null;

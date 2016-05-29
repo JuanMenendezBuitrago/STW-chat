@@ -17,6 +17,8 @@ public class Conversation {
 	
 	private Operator operator;
 	
+	private boolean pending;
+	
 	private ArrayList<Message> orderedMessages;
 
 	
@@ -31,6 +33,9 @@ public class Conversation {
 		this.product = product;
 		this.subject = subject;
 		this.userName = userName;
+		this.pending = false;
+		
+		this.orderedMessages = new ArrayList<Message>();
 	}
 
 	public UUID getConversationId() {
@@ -53,15 +58,23 @@ public class Conversation {
 		this.operator = operator;
 	}
 
+	public boolean isPending() {
+		return pending;
+	}
+
+	public void setPending(boolean pending) {
+		this.pending = pending;
+	}
+
 	public void addMessage(Message message) {
-		
+		orderedMessages.add(message);
 	}
 	
 	public String toString() {
 		String result = "";
-		result += "conversation Id:       " + this.conversationId + "\n"; 
-		result += "conversation user:     " + this.userName + "\n";
-		result += "conversation operator: " + this.operator.getLogin() + "\n";
+		for(Message message : orderedMessages) {
+			result += "<p>" + message.getName() + ":" + message.getMessage() + "</p>"; 
+		}
 		return result;
 	}
 	
