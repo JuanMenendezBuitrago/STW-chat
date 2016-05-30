@@ -32,6 +32,9 @@ public class ConversationsManager {
 		Conversation conversation = new Conversation(userId, category, product, subject, userName);
 
 		Operator operator = getAvailableOperator();
+		if (operator == null){
+			throw new OperatorsNotAvailableException("No operator availale at the moment.");
+		}
 		
 		
 		conversation.setOperator(operator);
@@ -43,10 +46,10 @@ public class ConversationsManager {
 		return conversation;
 	}
 	
-	private Operator getAvailableOperator() throws OperatorsNotAvailableException {
+	public Operator getAvailableOperator() {
 		List<Operator> operatorsList = operatorsBean.getOperatorList();
 		if(operatorsList.isEmpty()){
-			throw new OperatorsNotAvailableException("There are no operators available at this moment.");
+			return null;
 		}
 		
 		Operator result = null;

@@ -50,7 +50,8 @@ xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 			</h:panelGroup>
 			
 			<div class="form-group">
-				<h:commandButton action="#{userLoginController.createConversation()}" value="Login" styleClass="btn btn-default"/>
+				<h:panelGroup layout="block" styleClass="form-group text-danger bg-danger notice" rendered="#{!userLoginController.operatorAvailable}">No hay ningún operador disponible en este momento</h:panelGroup>
+				<h:commandButton action="#{userLoginController.createConversation()}" value="Login" styleClass="btn btn-success" disabled="#{!userLoginController.operatorAvailable}"/>
 			</div>
 		</h:form>
 	</div>	

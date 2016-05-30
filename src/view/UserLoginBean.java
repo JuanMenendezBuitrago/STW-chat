@@ -17,6 +17,7 @@ public class UserLoginBean {
 	private String selectedCategory;
 	private String selectedProduct;
 	private UUID userId;
+	private boolean logged=false;
 	
 	/**
      * Default constructor. 
@@ -63,5 +64,13 @@ public class UserLoginBean {
 	
 	public void setUserId(UUID userId) {
 		this.userId = userId;
+	}
+
+	public boolean isLogged() {
+		return logged;
+	}
+
+	public void setLogged(boolean logged) {
+		this.logged = logged;
 	}
 }

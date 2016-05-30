@@ -17,7 +17,15 @@ xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 </h:head>
 <h:body>
 	<h:panelGroup layout="block" styleClass="container">
-		<h:panelGroup layout="block" styleClass="row">
+		<h:panelGroup layout="block" styleClass="row" rendered="#{!userLoginBean.logged}">
+			<h:panelGroup layout="block" styleClass="col-xs-offset-4 col-xs-4">
+				<h:form>
+					<h1>Debes de loguearte primero</h1>
+					<h:commandButton action="userLogin" styleClass="btn btn-primary" value="login"></h:commandButton>
+				</h:form>
+			</h:panelGroup>
+		</h:panelGroup>
+		<h:panelGroup layout="block" styleClass="row" rendered="#{userLoginBean.logged}">
 			<!--  left column -->
 			<h:panelGroup layout="block" id="operator" styleClass="col-xs-3">
 				<h:graphicImage library="img" name="#{userLoginController.operator.pictureSrc}" id="avatar"></h:graphicImage>

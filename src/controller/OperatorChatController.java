@@ -1,13 +1,16 @@
 package controller;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
 
 import model.Conversation;
 import model.Operator;
@@ -33,6 +36,20 @@ public class OperatorChatController {
 		// TODO Auto-generated constructor stub
 	}
 
+	@PostConstruct
+	public void init() {
+		if(operator == null) {
+
+			FacesContext context = FacesContext.getCurrentInstance();
+		    try {
+				context.getExternalContext().redirect("/chat/operatorLogin.xhtml");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+	
 	public void setOperator(Operator operator) {
 		this.operator = operator;
 	}

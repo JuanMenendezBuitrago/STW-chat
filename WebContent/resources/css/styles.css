@@ -4,6 +4,14 @@
 	margin-top: 20px;
 }
 
+.notice{
+	padding: 15px;
+}
+
+.btn{
+	width: 100%;
+}
+
 form {
 	border-radius: 3px;
 	padding:10px;
@@ -72,7 +80,7 @@ form .error{
 }
 
 #avatar {
-    width: 90%;
+    width: 100%;
     background: #eee;
     border-radius: 50%;
 }

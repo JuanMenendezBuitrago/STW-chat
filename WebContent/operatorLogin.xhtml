@@ -29,12 +29,13 @@ xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 				<h:inputText id="password" label="Password" value="#{operator.passwd}" required="true" styleClass="form-control"/>
 			</h:panelGroup>
 			
-			<h:panelGroup layout="block" id="error-msg" styleClass="text-danger bg-danger">
-				<h:outputText rendered="#{operator.checked and !operator.logged}" value="La combinación usuario/contraseña no es correcta"></h:outputText>
+			<h:panelGroup layout="block" id="error-msg" styleClass="form-group text-danger bg-danger notice" rendered="#{operator.checked and !operator.logged}">
+				<h:messages></h:messages>
+				<h:outputText value="La combinación usuario/contraseña no es correcta"></h:outputText>
 			</h:panelGroup>
 			
 			<div class="form-group">
-				<h:commandButton actionListener="#{operatorLoginController.validateOperator}" value="Login" render="error-msg" styleClass="btn btn-default"/>
+				<h:commandButton actionListener="#{operatorLoginController.validateOperator}" value="Login" render="error-msg" styleClass="btn btn-success"/>
 			</div>
 		</h:form>
 	</div>	

@@ -66,6 +66,12 @@ public class UserLoginController {
 		return (ArrayList<Product>)getProducts();
 	}
 	
+	public boolean isOperatorAvailable(){
+		Operator op = null;
+		op = conversationsManager.getAvailableOperator();
+		return op != null;
+	}
+	
 	public String createConversation() {
 		
 		UUID userId = UserLoginController.generateUserId();
@@ -78,10 +84,11 @@ public class UserLoginController {
 		
 		try{
 			conversation = conversationsManager.createConversation(userId, category, product, subject, userName);
+			userLoginBean.setLogged(true);
 			return "userChat";
 		}
 		catch (Exception e){
-			return "noOperatorFound";
+			return "userLogin";
 		}
 	}
 	
