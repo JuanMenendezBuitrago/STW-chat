@@ -127,8 +127,14 @@ public class OperatorChatController {
 		}
 	}
 	
-	public void removeConversation(ConversationDetails conversationdetails) {
+	private void removeConversation(ConversationDetails conversationdetails) {
 		
+	}
+	
+	public void removeConversation(String conversationId) {
+		UUID conversationUUID = UUID.fromString(conversationId);
+		ConversationDetails conversationDetails = getConversationDetailsById(conversationUUID);
+		removeConversation(conversationDetails);
 	}
 	
 	public String tryToLogout() {
