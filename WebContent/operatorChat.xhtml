@@ -22,13 +22,15 @@ xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 			<!--  left column -->
 			<h:panelGroup layout="block" id="operator" styleClass="col-xs-3">
 				<h:panelGroup layout="block" id="operatorDetails">
-					<h3>Operator</h3>
-					<h:outputText id="operatorId" value="#{operator.operatorId}"></h:outputText>
-					 
+					<h3>Lista de usuarios</h3>
+					
 						<!-- conversations list form -->
 						
 						<h:form id="conversationsList" prependId="false">
 							<ui:repeat value="#{operatorChatBean.conversations}" var="convD">
+								<h:commandLink a:data-id="#{convD.conversationId}" styleClass="glyphicon glyphicon-remove close-chat">
+									<f:ajax render="chat conversationsList" listener="#{operatorChat.removeConversation(convD.conversationId)}"></f:ajax>
+								</h:commandLink>
 								<h:commandLink a:data-id="#{convD.conversationId}" value="#{convD.userName}" styleClass="#{convD.conversationLinkStyle} #{convD.pending? 'pending':''}">
 									<f:ajax render="chat conversationsList" listener="#{operatorChat.changeToConversation(convD.conversationId)}"></f:ajax>
 								</h:commandLink>
