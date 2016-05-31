@@ -25,10 +25,10 @@ public class OperatorsBean {
 		operators  = new ArrayList<Operator>();
 		
 		id = UUID.randomUUID();
-		operators.add(new Operator(id, "juan", "juan123", "Juan", "Bar", "Mi nombre es Juan,en qué puedo ayudarte?", "vlcsnap-2016-02-19-13h56m16s314.png"));
+		operators.add(new Operator(id, "juan", "juan123", "Juan", "Atención al cliente", "Mi nombre es Juan,en qué puedo ayudarte?", "vlcsnap-2016-02-19-13h56m16s314.png"));
 		
 		id = UUID.randomUUID();
-		operators.add(new Operator(id, "nico", "nico123", "Nico", "Foo", "Mi nombre es Nico, qué me cuentas?","zoidberg_blinking_futurama.gif"));
+		operators.add(new Operator(id, "nico", "nico123", "Nico", "Atención al cliente", "Mi nombre es Nico, qué me cuentas?","zoidberg_blinking_futurama.gif"));
 
 
 	}
@@ -59,7 +59,6 @@ public class OperatorsBean {
 		System.out.println("Operators stored: " + operators.size());// TODO:delete
 		for(Operator operator : operators) {
 
-			System.out.println("Checking operator: " + operator.getId());// TODO:delete
 			if(operator.getId().equals(id))
 				return operator;
 		}

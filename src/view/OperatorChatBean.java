@@ -22,12 +22,10 @@ public class OperatorChatBean {
 	}
 
 	public String getHistory() {
-		System.out.println("getting history:\n" + history);// TODO: delete
 		return history;
 	}
 
 	public void setHistory(String history) {
-		System.out.println("Setting history:\n" + history); // TODO: delete
 		this.history = history;
 	}
 

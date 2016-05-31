@@ -6,11 +6,11 @@ import java.util.List;
 import java.util.UUID;
 
 import javax.annotation.PostConstruct;
-import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpSession;
 
 import model.Conversation;
 import model.Operator;
@@ -38,16 +38,16 @@ public class OperatorChatController {
 
 	@PostConstruct
 	public void init() {
-		if(operator == null) {
-
-			FacesContext context = FacesContext.getCurrentInstance();
-		    try {
-				context.getExternalContext().redirect("/chat/operatorLogin.xhtml");
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
+//		if(operator == null) {
+//
+//			FacesContext context = FacesContext.getCurrentInstance();
+//		    try {
+//				context.getExternalContext().redirect("/chat/operatorLogin.xhtml");
+//			} catch (IOException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+//		}
 	}
 	
 	public void setOperator(Operator operator) {
@@ -95,11 +95,9 @@ public class OperatorChatController {
 	
 	public ConversationDetails getConversationDetailsById(UUID conversationId) {
 
-		System.out.println("getting onversation details by id " + conversationId); // TODO: delete
 		List<ConversationDetails>  conversationsDetails = operatorChatBean.getConversations();
 		
 		for(ConversationDetails conversationDetails : conversationsDetails) {
-			System.out.println("comparing with conversation id " + conversationDetails.getConversationId()); // TODO: delete
 			if(conversationDetails.getConversationId().equals(conversationId)) {
 				System.out.println("returning " + conversationDetails); // TODO: delete
 				return conversationDetails;
@@ -135,8 +133,6 @@ public class OperatorChatController {
 	private void setupCurrentConversationId() {
 		
 		if( this.currentConversationId == null) {
-		
-			
 			Conversation currentConversation = this.operator.getCurrentConversation();
 			if(currentConversation != null) {				
 				this.currentConversationId = currentConversation.getConversationId();
@@ -145,17 +141,43 @@ public class OperatorChatController {
 	}
 	
 	private void removeConversation(ConversationDetails conversationdetails) {
-		
+		operatorChatBean.getConversations().remove(conversationdetails);
 	}
 	
 	public void removeConversation(String conversationId) {
 		UUID conversationUUID = UUID.fromString(conversationId);
 		ConversationDetails conversationDetails = getConversationDetailsById(conversationUUID);
 		removeConversation(conversationDetails);
+		
+		Conversation conversationToRemove = null;
+		for(Conversation conversation : conversations) {
+			if(conversation.getConversationId().equals(conversationUUID)) {
+				conversationToRemove = conversation;
+			}
+		}
+		
+		if(conversationToRemove!=null){
+			conversations.remove(conversationToRemove);
+			if(conversationUUID.equals(currentConversationId)) {
+				currentConversationId = null;
+				operatorChatBean.setHistory("");	
+				operator.setCurrentConversation(null);
+			}
+		}
+		
+		for(Conversation conversation : conversations) {
+			changeToConversation(conversation.getConversationId().toString());
+			return;
+		}
+		return;
 	}
 	
 	public String tryToLogout() {
-		return "";
+		if(isAllowedToLogout()){
+			((HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false)).invalidate();
+			return "operatorLogin.xhtml?faces-redirect=true";
+		}
+		return "operatorChat";
 	}
 	
 	public boolean isAllowedToLogout() {

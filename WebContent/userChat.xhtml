@@ -30,10 +30,14 @@ xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 			<h:panelGroup layout="block" id="operator" styleClass="col-xs-3">
 				<h:graphicImage library="img" name="#{userLoginController.operator.pictureSrc}" id="avatar"></h:graphicImage>
 				<h:panelGroup layout="block" id="operatorDetails">
-					<h3>Operator name: <h:outputText value="#{userLoginController.operator.name}"></h:outputText></h3>
+					<h3><h:outputText value="#{userLoginController.operator.name}"></h:outputText></h3>
+					<h4>de <h:outputText value="#{userLoginController.operator.department}"></h:outputText></h4>
+					<h:panelGroup layout="block" id="welcomeMsg">
+						Hola <h:outputText value="#{userLoginBean.name}"/>,<h:outputText value="#{userLoginController.operator.welcomeMsg}"/>
+					</h:panelGroup>
 				</h:panelGroup>
 				<h:form id="logoutForm" prependId="false">
-					<h:commandLink onclick="closeChatSession();" id="logoutLink" styleClass="btn btn-danger">
+					<h:commandLink onclick="closeChatSession();" id="logoutLink" styleClass="btn btn-danger" action="#{userLoginController.logout}">
 						<i class="glyphicon glyphicon-off"></i>Salir
 						<f:ajax/>	
 					</h:commandLink>
@@ -43,9 +47,7 @@ xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 			<!-- main column -->
 			<h:panelGroup layout="block" id="chat" styleClass="col-xs-9">
 				
-				<h:panelGroup layout="block" id="chatIntro">
-				Hola <h:outputText value="#{userLoginBean.name}"/>:<h:outputText value="#{userLoginController.operator.welcomeMsg}"/>
-				</h:panelGroup>
+				
 				<h:panelGroup layout="block" id="chatText"/>
 				
 				
@@ -59,7 +61,7 @@ xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 						<h:message for="name" styleClass="help-block"></h:message>
 					</h:panelGroup>
 					<h:panelGroup layout="block" styleClass="form-group">
-					<h:commandButton value="send" onclick="sendChatMessage();" styleClass="btn btn-default" >
+					<h:commandButton value="send" onclick="sendChatMessage();" styleClass="btn btn-primary" >
 						<f:ajax/>
 					</h:commandButton>
 					</h:panelGroup>

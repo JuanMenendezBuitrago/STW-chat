@@ -10,6 +10,8 @@ import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpSession;
 
 import model.CatalogBean;
 import model.Conversation;
@@ -94,6 +96,11 @@ public class UserLoginController {
 	
 	public Operator getOperator() {
 		return conversation.getOperator();
+	}
+	
+	public String logout() {
+		((HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false)).invalidate();
+		return "userLogin.xhtml?faces-redirect=true";
 	}
 	
 	private static UUID generateUserId() {

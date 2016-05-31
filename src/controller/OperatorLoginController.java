@@ -70,12 +70,5 @@ public class OperatorLoginController {
 //				
 //		return redirect;	
 	}
-	
-	
-	public String logout() {
-		FacesContext.getCurrentInstance().getExternalContext()
-				.invalidateSession();
-		return "operatorLogin.xhtml?faces-redirect=true";
-	}
 
 }

@@ -109,7 +109,18 @@ public class ChatServerEndpoint {
     
     @OnClose
     public void onClose(Session session) {
+    	UUID channelUUID = UUID.fromString((String)session.getUserProperties().get("channel"));
+    	System.out.println("Closing websocket for " + session.getUserProperties().get("channel")); //TODO:delete
     	
+    	Session ses = getSessionByChannel(channelUUID);
+    	if( ses != null){
+    		sessions.remove(ses);
+    	}
+    	
+    	System.out.println("Sessions in storage: "); //TODO:delete
+    	for(Session s: sessions){
+    		System.out.println(s.getUserProperties().get("channel"));//TODO:delete
+    	}    	
     }
     
     /**

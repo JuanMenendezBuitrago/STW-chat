@@ -41,7 +41,6 @@ public class ConversationsManager {
 		operator.addConversation(conversation);
 		UUID operatorId = operator.getId();
 		conversationTuplesById.put(userId, new UserIdOperatorIdConversationTuple(userId, operatorId, conversation));
-		System.out.println("Conversation created between " + userId + "and " + operatorId); //TODO:delete
 		
 		return conversation;
 	}

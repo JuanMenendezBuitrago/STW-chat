@@ -30,10 +30,12 @@ function initiateChatSession() {
 	console.log("Intiating chat session.");	
 
 	if ("WebSocket" in window) {
-		ws = new WebSocket(chatEndpoint + "/" + $("#personId").val());
-		ws.onopen = onOpen;
-		ws.onclose = onClose;
-		ws.onmessage = onMessage;	
+		if(typeof($("#personId").val())!="undefined"){
+			ws = new WebSocket(chatEndpoint + "/" + $("#personId").val());
+			ws.onopen = onOpen;
+			ws.onclose = onClose;
+			ws.onmessage = onMessage;		
+		}
 	} else {
 		// The browser doesn't support WebSocket
 		alert("WebSocket NOT supported!");

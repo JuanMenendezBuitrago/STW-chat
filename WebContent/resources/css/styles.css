@@ -48,7 +48,7 @@ form#conversationsList a{
 }
 
 form#conversationsList a.close-chat{
-	display: inline-block;
+	display: none;
     float: left;
     top: 3px;
     margin: 5px 0;
