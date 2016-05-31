@@ -26,7 +26,7 @@ public class OperatorChatController {
 	@ManagedProperty(value="#{operatorChatBean}")
 	private OperatorChatBean operatorChatBean;
 	
-	private List<Conversation> conversations; 
+	private List<Conversation> conversations = new ArrayList<Conversation>(); 
 	
 	private UUID currentConversationId = null;
 	
@@ -77,8 +77,8 @@ public class OperatorChatController {
 		}
 		
 		currentConversationId = newConversationDetails.getConversationId();
-		newConversationDetails.setPending(false);
 		Conversation conversation = operator.getConversationById(currentConversationId);
+		conversation.setPending(false);
 		operator.setCurrentConversation(conversation);
 		newConversationDetails.setConversationLinkStyleToSelectedChat();
 		
@@ -159,7 +159,7 @@ public class OperatorChatController {
 	}
 	
 	public boolean isAllowedToLogout() {
-		return true;
+		return conversations.isEmpty();
 	}
 
 	public List<Conversation> getConversations() {

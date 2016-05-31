@@ -41,9 +41,8 @@ function initiateChatSession() {
 }
 
 function closeChatSession(event) {
-	
 	console.log("In closeChatSession");
-	
+	sendCloseMessage();
 	ws.close();
 }
 
@@ -88,6 +87,16 @@ function onMessage(evt){
 		return;
 	}
 	
+	if (received_msg.code == 2) {
+		console.log("closing");
+		$("#conversationsList a.close-chat").filter(function(){
+			console.log(received_msg.from + ":" + $(this).data("id"));
+			return received_msg.from == $(this).data("id");
+		}).css({'color':'red'}).click();
+		
+		return;
+	}
+	
 	if(received_msg.from == $("#conversationId").val() || received_msg.from == $("#operatorId").val()) {
 		appendMessage(received_msg.message, received_msg.name, "outside");
 	}else{
@@ -97,6 +106,18 @@ function onMessage(evt){
 	}
 }
 
+function sendCloseMessage() {
+	console.log("In sendCloseMessage");
+
+	var chatobj = {"code": 2, "from": $("#personId").val() , "name": "", "message" : ""};
+	var chatstr = JSON.stringify(chatobj);
+		
+	if (ws == null) {
+		alert('problem with WebSocket, please initiate session again');
+	} else {
+		ws.send(chatstr);
+	}	
+}
 
 function sendChatMessage() {
 	console.log("In sendChatMessage");

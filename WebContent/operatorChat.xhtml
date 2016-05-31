@@ -22,23 +22,25 @@ xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 			<!--  left column -->
 			<h:panelGroup layout="block" id="operator" styleClass="col-xs-3">
 				
-				<h:form id="logoutForm" prependId="false">
-					<h:commandLink id="logoutLink" styleClass="btn btn-danger"><i class="glyphicon glyphicon-off"></i>Salir</h:commandLink>
-				</h:form>
-				
 				<h:panelGroup layout="block" id="usersList">
 					<h3>Lista de usuarios</h3>
 					
 						<!-- conversations list form -->
 						
 						<h:form id="conversationsList" prependId="false">
+							<h:panelGroup layout="block" rendered="#{operatorChat.allowedToLogout}"> 
+								<h:panelGroup layout="block" class="form-group bg-danger text-danger notice">No hay conversaciones abiertas</h:panelGroup>
+								<h:commandLink id="logoutLink" styleClass="btn btn-danger"><i class="glyphicon glyphicon-off"></i>Salir</h:commandLink>
+							</h:panelGroup>
 							<ui:repeat value="#{operatorChatBean.conversations}" var="convD">
-								<h:commandLink a:data-id="#{convD.conversationId}" styleClass="glyphicon glyphicon-remove close-chat">
-									<f:ajax render="chat conversationsList" listener="#{operatorChat.removeConversation(convD.conversationId)}"></f:ajax>
-								</h:commandLink>
-								<h:commandLink a:data-id="#{convD.conversationId}" value="#{convD.userName}" styleClass="#{convD.conversationLinkStyle} #{convD.pending? 'pending':''}">
-									<f:ajax render="chat conversationsList" listener="#{operatorChat.changeToConversation(convD.conversationId)}"></f:ajax>
-								</h:commandLink>
+								<h:panelGroup layout="block" styleClass="form-group user">
+									<h:commandLink a:data-id="#{convD.conversationId}" styleClass="glyphicon glyphicon-remove close-chat">
+										<f:ajax render="chat conversationsList" listener="#{operatorChat.removeConversation(convD.conversationId)}"></f:ajax>
+									</h:commandLink>
+									<h:commandLink a:data-id="#{convD.conversationId}" value="#{convD.userName}" styleClass="#{convD.conversationLinkStyle} #{convD.pending? 'pending':''}">
+										<f:ajax render="chat conversationsList" listener="#{operatorChat.changeToConversation(convD.conversationId)}"></f:ajax>
+									</h:commandLink>
+								</h:panelGroup>
 							</ui:repeat>
 							<h:commandButton id="refresh" style="display:none">
 									<f:ajax render="conversationsList" listener="#{operatorChat.refreshConversations()}"/>

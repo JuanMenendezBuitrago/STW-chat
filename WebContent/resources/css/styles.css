@@ -37,6 +37,10 @@ form#conversationsList {
 	padding:0;
 }
 
+form#conversationsList .form-group.user{
+	margin-bottom: 5px
+}
+
 form#conversationsList a{
 	display: block;
 	padding: 5px 10px;

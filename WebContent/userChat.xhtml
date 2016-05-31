@@ -33,7 +33,10 @@ xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 					<h3>Operator name: <h:outputText value="#{userLoginController.operator.name}"></h:outputText></h3>
 				</h:panelGroup>
 				<h:form id="logoutForm" prependId="false">
-					<h:commandLink id="logoutLink" styleClass="btn btn-danger"><i class="glyphicon glyphicon-off"></i>Salir</h:commandLink>
+					<h:commandLink onclick="closeChatSession();" id="logoutLink" styleClass="btn btn-danger">
+						<i class="glyphicon glyphicon-off"></i>Salir
+						<f:ajax/>	
+					</h:commandLink>
 				</h:form>
 			</h:panelGroup>
 			

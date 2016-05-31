@@ -11,7 +11,7 @@ import javax.faces.bean.SessionScoped;
 public class OperatorChatBean {
 
 	
-	private String history="what??";
+	private String history="";
 	
 	private String message="";
 	

@@ -90,6 +90,11 @@ public class ChatServerEndpoint {
     	
     	System.out.println("Opening websocket for " + channel); //TODO:delete
     	
+    	UUID channelUUID = UUID.fromString(channel);
+    	Session ses = getSessionByChannel(channelUUID);
+    	if( ses != null){
+    		sessions.remove(ses);
+    	}
     	// add channel information to session data
     	session.getUserProperties().put("channel", channel);
     	sessions.add(session);
